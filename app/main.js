@@ -21,7 +21,7 @@ autoUpdater.logger.transports.file.level = 'info'
 app.on('window-all-closed', function () {
   // TODO: Quit the window for real on all platform and re-create it when needed
   if (process.platform !== 'darwin') {
-    // app.quit();
+    app.quit()
   }
 })
 
@@ -87,15 +87,14 @@ app.on('ready', function () {
   ipcMain.on('windowClose', (event) => {
     windowManager.closeWindow()
   })
-  /*
-  // if(!isDev) {
-  autoUpdater.checkForUpdates()
-
-  setInterval(function () {
+/*
+  if (!isDev) {
     autoUpdater.checkForUpdates()
-  }, 21600000) // 6hrs
 
-  // }
+    setInterval(function () {
+      autoUpdater.checkForUpdates()
+    }, 21600000) // 6hrs
+  }
   */
   console.log('App is ready and running!')
 })

@@ -77,7 +77,7 @@ windowManager.createWindow = function () {
 
 windowManager.closeWindow = function () {
   if (windowManager.isWindowCreated()) {
-    windowManager.browserWindow.hide()
+    windowManager.browserWindow.close()
   }
 }
 

@@ -49,12 +49,12 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
   $scope.checkingForUpdates = false
   $scope.showUpdateNotAvailable = false
 
-  $scope.urlLeft = 'https://pornhub.com/'
-  $scope.domainLeft = 'pornhub.com'
+  $scope.urlLeft = 'https://redtube.com/'
+  $scope.domainLeft = 'redtube.com'
   $scope.loadingLeft = true
   $scope.pageTitleLeft = ''
-  $scope.urlRight = 'https://www-stage.pornhub.com/'
-  $scope.domainRight = 'www-stage.pornhub.com'
+  $scope.urlRight = 'https://redtube.dev/'
+  $scope.domainRight = 'redtube.dev'
   $scope.loadingRight = true
   $scope.pageTitleRight = ''
 
@@ -102,6 +102,25 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
   })
   webviewRight.addEventListener('page-title-updated', function (title) {
     $scope.pageTitleRight = title.title
+    $scope.$apply()
+  })  
+  
+  webviewLeft.addEventListener('will-navigate', function (url) {
+    url = new URL(url.url)
+
+    $scope.urlLeft = url.toString()
+    url.set('hostname', $scope.domainRight)
+    $scope.urlRight = url.toString()
+    webviewRight.loadURL($scope.urlRight)
+    $scope.$apply()
+  })
+  webviewRight.addEventListener('will-navigate', function (url) {
+    url = new URL(url.url)
+
+    $scope.urlRight = url.toString()
+    url.set('hostname', $scope.domainLeft)
+    $scope.urlLeft = url.toString()
+    webviewLeft.loadURL($scope.urlLeft)
     $scope.$apply()
   })
 
