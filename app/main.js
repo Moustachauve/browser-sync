@@ -7,8 +7,6 @@ const isDev = require('electron-is-dev')
 const mkdirp = require('mkdirp')
 const windowManager = require('./lib/windowManager')
 
-// const updateFeedUrl = 'http://timesheethero.cgagnier.ca/'
-
 if (isDev) {
   mkdirp.sync('./dist')
   log.transports.file.file = 'dist/log-dev.log'
