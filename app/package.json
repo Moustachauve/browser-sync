@@ -1,0 +1,27 @@
+{
+  "name": "browsersync",
+  "productName": "Browser-Sync",
+  "description": "Sync the url with two tabs with a different domain.",
+  "author": "Christophe Gagnier",
+  "private": true,
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-aria": "^1.6.4",
+    "angular-material": "^1.1.4",
+    "electron-drag": "^1.2.0",
+    "electron-edge": "^6.5.5",
+    "electron-is-dev": "^0.1.2",
+    "electron-log": "^2.2.6",
+    "electron-updater": "^2.4.1",
+    "electron-window-state": "^4.1.1",
+    "jsonfile": "^3.0.0",
+    "mkdirp": "^0.5.1",
+    "url-parse": "^1.1.9"
+  },
+  "scripts": {
+    "start": "electron ."
+  }
+}

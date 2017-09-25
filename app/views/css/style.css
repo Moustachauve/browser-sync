@@ -1,0 +1,142 @@
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    overflow: hidden;
+    animation: fadein 0.5s;
+}
+
+a {
+    color: #b71c1c;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover {
+    color: #e13e3e;
+    text-decoration: underline;
+}
+
+md-input-container .hint {
+    /* Position the hint */
+    position: absolute;
+    left: 2px;
+    right: auto;
+    bottom: 7px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    /* Set our own color */
+    color: grey; 
+}
+
+md-toolbar, #titleBar {
+    -webkit-user-select: none;
+    user-select: none; 
+    cursor: default;
+}
+
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content {
+    background-color: #b71c1c;
+    color: #ffffff;
+}
+
+md-tooltip.md-panel.md-tooltip.md-default-theme, md-tooltip.md-panel.md-tooltip {
+    margin-top: 10px;
+    background: #171717;
+    color: #fafafa;
+}
+
+.copyright {
+    font-size: 10px;
+    opacity: 0.6;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.wide-input {
+    width: 220px;
+}
+
+.md-toolbar-tools {
+    position: relative;
+}
+
+@media (max-width: 959px) {
+    .md-toolbar-tools {
+        height: 64px;
+        max-height: 64px;
+    }
+}
+
+.md-toolbar-tools h1 {
+    margin-top: -80px;
+    margin-left: -8px;
+}
+
+#url-bars {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    z-index: 10;
+}
+
+#url-bars form {
+    flex: 1 0;
+    position: relative;
+    -webkit-app-region: no-drag;
+    margin-right: 20px;
+    min-width: 0;
+}
+
+#url-bars form .url {
+    display: flex;
+}
+
+#url-bars form .title {
+    font-size: 12px;
+    margin-left: 8px;
+    color: #dadada;
+    line-height: 12px;
+    height: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#url-bars input {
+    flex: 1 0;
+    background-color: #5b0e0e;
+    color: #bababa;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+    margin-right: 0;
+    font-size: 14px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+    transition:all 0.3s ease;
+}
+
+#url-bars md-progress-circular {
+    position: absolute;
+    right: 7px;
+    top: 23px;
+}
+
+#url-bars input:hover {
+    background-color: #6d1010;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+#url-bars input:focus {
+    background-color: #efefef;
+    color: #202020;
+}

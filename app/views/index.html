@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="browsersync" ng-controller="indexController">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Browser Sync</title>
+        
+        <link rel="stylesheet" href="../node_modules/angular-material/angular-material.min.css"/>
+        <link rel="stylesheet" href="css/titlebarWin.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!--<link rel="stylesheet" type="text/less" href="../less/main.less" />-->
+    </head>
+    <body ng-cloak layout="column">
+        <div id="titleBar">
+            <div class="titlebar" ng-dblclick="windowMaximize()" ng-include="'titlebarControlsWin.html'"></div>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h1 flex md-truncate>
+                        Browser Sync
+                    </h1>
+
+                    <md-button class="md-icon-button md-accent md-hue-2" aria-label="New update available" ng-click="showUpdateDialog($event)" ng-if="isUpdateAvailable" ng-mousedown="$event.stopPropagation();">
+                        <md-tooltip md-direction="bottom">A new update is ready to be installed</md-tooltip>
+                        <i class="material-icons">announcement</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+        </div>
+
+        <div id="url-bars">
+            <form ng-submit="navigateLeft()">
+                <div class="title">{{pageTitleLeft}}</div>
+                <div class="url">
+                    <input type="text" ng-model="urlLeft" />
+                    <md-progress-circular class="md-accent" md-diameter="16px" ng-if="loadingLeft"></md-progress-circular>
+                </div>
+            </form>
+            <form ng-submit="navigateRight()">
+                <div class="title">{{pageTitleRight}}</div>
+                <div class="url">
+                    <input type="text" ng-model="urlRight" />
+                    <md-progress-circular class="md-accent" md-diameter="16px" ng-if="loadingRight"></md-progress-circular>
+                </div>
+            </form>
+        </div>
+
+        <div layout="row" layout-fill >
+            <webview id="webview-left" src="/" flex></webview>
+            <webview id="webview-right" src="/" flex></webview>
+        </div>
+    </body>
+    <script src="index.js"></script>
+</html>

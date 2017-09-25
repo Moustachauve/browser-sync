@@ -1,0 +1,12 @@
+#directories
+node_modules
+dist
+
+#files
+*.tgz
+*.log
+
+#app specific
+app/globalSettings.json
+app/data
+dist/*
