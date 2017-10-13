@@ -85,7 +85,7 @@ app.on('ready', function () {
   ipcMain.on('windowClose', (event) => {
     windowManager.closeWindow()
   })
-/*
+
   if (!isDev) {
     autoUpdater.checkForUpdates()
 
@@ -93,6 +93,6 @@ app.on('ready', function () {
       autoUpdater.checkForUpdates()
     }, 21600000) // 6hrs
   }
-  */
+
   console.log('App is ready and running!')
 })

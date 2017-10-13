@@ -9,6 +9,10 @@
     "appId": "ca.cgagnier.browsersync",
     "artifactName": "${name}-setup-${version}.${ext}"
   },
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moustachauve/browser-sync.git"
+  },
   "devDependencies": {
     "electron": "^1.4.4",
     "electron-builder": "^19.7.1",
