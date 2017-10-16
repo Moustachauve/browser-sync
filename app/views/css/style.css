@@ -96,11 +96,11 @@ sync-browser-window .url-bar {
 sync-browser-window .url-bar form {
     position: relative;
     -webkit-app-region: no-drag;
-    margin-right: 20px;
+    margin-right: 30px;
     min-width: 0;
 }
 
-sync-browser-window .url-bar form .url {
+sync-browser-window .url-bar .url {
     display: flex;
 }
 
@@ -113,6 +113,16 @@ sync-browser-window .url-bar form .title {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+sync-browser-window .options {
+    position: absolute;
+    top: 12px;
+    right: -42px;
+}
+
+sync-browser-window .options .material-icons {
+    font-size: 22px;
 }
 
 sync-browser-window input {
@@ -169,4 +179,15 @@ sync-browser-window .status-bar {
 
 sync-browser-window .status-bar.ng-hide {
     opacity: 0;
+}
+
+#setDomainDialog {
+    min-width: 300px;
+}
+#setDomainDialog md-input-container {
+    margin: 0;
+    width: 100%;
+}
+#setDomainDialog md-input-container .md-errors-spacer {
+    display: none;
 }

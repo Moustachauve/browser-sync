@@ -1,10 +1,13 @@
+'use strict'
+
+/* global angular */
 const URL = require('url-parse')
 
 // eslint-disable-next-line no-undef
 angular.module('browsersync')
   .directive('syncBrowserWindow', function () {
-    var controller = ['$scope', '$rootScope', function ($scope, $rootScope) {
-      $scope.url = 'https://home.com/'
+    var controller = ['$scope', '$rootScope', '$mdDialog', function ($scope, $rootScope, $mdDialog) {
+      $scope.url = ''
       $scope.loading = true
       $scope.pageTitle = ''
       $scope.statusbarText = ''
@@ -16,7 +19,7 @@ angular.module('browsersync')
         webview.addEventListener('dom-ready', () => {
           if (firstLoad) {
             firstLoad = false
-            loadUrl($scope.url)
+            $scope.loadUrl($scope.url)
           }
         })
 
@@ -47,7 +50,7 @@ angular.module('browsersync')
         })
 
         webview.addEventListener('will-navigate', function (data) {
-          loadUrl(data.url)
+          $scope.loadUrl(data.url)
         })
 
         webview.addEventListener('did-navigate', function (data) {
@@ -77,9 +80,30 @@ angular.module('browsersync')
         notifyUrlChanged()
       }
 
+      $scope.openSetDomainDialog = function () {
+        $mdDialog.show({
+          controller: 'setDomainDialog',
+          templateUrl: 'setDomain.dialog.html',
+          scope: $scope,
+          preserveScope: true,
+          parent: angular.element(document.body),
+          targetEvent: null,
+          clickOutsideToClose: false
+        }).then(function () {
+          // Dialog 'confirmed'
+        }, function () {
+          // Dialog dismissed
+        })
+      }
+
+      $scope.openDevTool = function () {
+        console.log('Opening dev tools')
+        webview.openDevTools()
+      }
+
       $rootScope.$on('syncBrowserUrlChanged', function (e, url) {
         console.log('url changed: ' + url)
-        loadUrl(url)
+        $scope.loadUrl(url)
       })
 
       function notifyUrlChanged () {
@@ -87,7 +111,10 @@ angular.module('browsersync')
         $rootScope.$broadcast('syncBrowserUrlChanged', $scope.url)
       }
 
-      function loadUrl (url) {
+      $scope.loadUrl = function (url) {
+        if (!$scope.domain) {
+          return
+        }
         url = new URL(checkUrlProtocol(url))
         url.set('hostname', $scope.domain)
         if ($scope.url === url.toString()) {
@@ -97,6 +124,11 @@ angular.module('browsersync')
         webview.loadURL($scope.url)
         notifyUrlChanged()
       }
+
+      $scope.$watch('domain', function () {
+        console.log('Domain changed, reloading web view')
+        $scope.loadUrl($scope.url)
+      }, true)
     }]
 
     function link (scope, element, attrs) {
@@ -115,7 +147,8 @@ angular.module('browsersync')
       templateUrl: 'directives/syncBrowserWindow.html',
       controller: controller,
       scope: {
-        domain: '@'
+        domain: '=',
+        side: '@'
       },
       link: link
     }

@@ -8,7 +8,8 @@ require('angular-aria')
 const {ipcRenderer} = require('electron')
 // const log = require('electron-log')
 const drag = require('electron-drag')
-const URL = require('url-parse')
+
+const globalSettings = require('./../lib/globalSettings')
 
 var titleBarDrag = drag('#titleBar')
 
@@ -28,6 +29,7 @@ var app = angular.module('browsersync', ['ngMaterial'])
 
 // Load directives
 require('./directives/syncBrowserWindow')
+require('./setDomain.dialog')
 
 app.config(function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
@@ -48,18 +50,9 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
   $scope.isUpdateAvailable = false
   $scope.checkingForUpdates = false
   $scope.showUpdateNotAvailable = false
+  $scope.settings = []
 
   var shouldShowUpdateDialog = true
-
-  $scope.navigateLeft = function () {
-    console.log('left')
-    navigateToUrl($scope.urlLeft)
-  }
-
-  $scope.navigateRight = function () {
-    console.log('right')
-    navigateToUrl($scope.urlRight)
-  }
 
   $scope.windowMinimize = function () {
     ipcRenderer.send('windowMinimize')
@@ -130,6 +123,22 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
   ipcRenderer.on('windowUnmaximize', function () {
     $scope.isWindowMaximized = false
     titleBarDrag = drag('#titleBar')
+  })
+
+  globalSettings.load(function (err, settings) {
+    if (err) {
+      throw err
+    }
+    console.log('Global settings loaded')
+    $scope.settings = settings
+    if (!$scope.$$phase) {
+      $scope.$apply()
+    }
+
+    globalSettings.on('dataChange', function (settings) {
+      console.log('Global settings changed')
+      $scope.settings = settings
+    })
   })
 }])
 
