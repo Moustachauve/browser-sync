@@ -7,6 +7,7 @@ angular.module('browsersync')
       $scope.url = 'https://home.com/'
       $scope.loading = true
       $scope.pageTitle = ''
+      $scope.statusbarText = ''
       var firstLoad = true
       var webview
 
@@ -18,7 +19,7 @@ angular.module('browsersync')
             loadUrl($scope.url)
           }
         })
-        
+
         webview.addEventListener('did-start-loading', function () {
           $scope.loading = true
           if (!$scope.$$phase) {
@@ -56,6 +57,17 @@ angular.module('browsersync')
         webview.addEventListener('did-navigate-in-page', function (data) {
           $scope.url = data.url
           notifyUrlChanged()
+        })
+
+        webview.addEventListener('update-target-url', function (data) {
+          $scope.statusbarText = data.url
+          if ($scope.statusbarText.length > 80) {
+            $scope.statusbarText = $scope.statusbarText.slice(0, 80)
+            $scope.statusbarText += '...'
+          }
+          if (!$scope.$$phase) {
+            $scope.$apply()
+          }
         })
       }
 

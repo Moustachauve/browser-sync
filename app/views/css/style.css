@@ -152,3 +152,21 @@ sync-browser-window webview {
 #browser-holder {
     flex: 1;
 }
+
+sync-browser-window .status-bar {
+    position: absolute;
+    bottom: 0;
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    color: #444;
+    font-size: 12px;
+    padding: 4px;
+    cursor: default;
+    user-select: none;
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+}
+
+sync-browser-window .status-bar.ng-hide {
+    opacity: 0;
+}
