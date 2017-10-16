@@ -18,29 +18,44 @@ angular.module('browsersync')
             loadUrl($scope.url)
           }
         })
+        
         webview.addEventListener('did-start-loading', function () {
           $scope.loading = true
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
+
         webview.addEventListener('did-stop-loading', function () {
           $scope.loading = false
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
+
         webview.addEventListener('page-title-updated', function (title) {
           $scope.pageTitle = title.title
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
+
         webview.addEventListener('did-fail-load', function (data) {
           console.log('fail to load', data)
+          $scope.loading = false
         })
+
         webview.addEventListener('will-navigate', function (data) {
           loadUrl(data.url)
+        })
+
+        webview.addEventListener('did-navigate', function (data) {
+          $scope.url = data.url
+        })
+
+        webview.addEventListener('did-navigate-in-page', function (data) {
+          $scope.url = data.url
+          notifyUrlChanged()
         })
       }
 
