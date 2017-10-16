@@ -148,3 +148,7 @@ sync-browser-window input:focus {
 sync-browser-window webview {
     flex: 1;
 }
+
+#browser-holder {
+    flex: 1;
+}

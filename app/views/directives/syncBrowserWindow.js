@@ -4,8 +4,7 @@ const URL = require('url-parse')
 angular.module('browsersync')
   .directive('syncBrowserWindow', function () {
     var controller = ['$scope', '$rootScope', function ($scope, $rootScope) {
-      $scope.url = 'https://redtube.com/'
-      // $scope.domain = 'redtube.com'
+      $scope.url = 'https://home.com/'
       $scope.loading = true
       $scope.pageTitle = ''
       var firstLoad = true
