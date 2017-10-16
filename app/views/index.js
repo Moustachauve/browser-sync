@@ -5,8 +5,8 @@ require('angular')
 require('angular-material')
 require('angular-animate')
 require('angular-aria')
-const {ipcRenderer, remote, shell} = require('electron')
-const log = require('electron-log')
+const {ipcRenderer} = require('electron')
+// const log = require('electron-log')
 const drag = require('electron-drag')
 const URL = require('url-parse')
 
@@ -26,6 +26,9 @@ var titleBarDrag = drag('#titleBar')
 // eslint-disable-next-line no-undef
 var app = angular.module('browsersync', ['ngMaterial'])
 
+// Load directives
+require('./directives/syncBrowserWindow')
+
 app.config(function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .dark()
@@ -42,87 +45,11 @@ app.config(function ($mdDateLocaleProvider) {
 })
 
 app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast', '$sce', function ($scope, $interval, $mdDialog, $mdToast, $sce) {
-  var hello = 'world'
-  console.log(hello)
-
   $scope.isUpdateAvailable = false
   $scope.checkingForUpdates = false
   $scope.showUpdateNotAvailable = false
 
-  $scope.urlLeft = 'https://redtube.com/'
-  $scope.domainLeft = 'redtube.com'
-  $scope.loadingLeft = true
-  $scope.pageTitleLeft = ''
-  $scope.urlRight = 'https://redtube.dev/'
-  $scope.domainRight = 'redtube.dev'
-  $scope.loadingRight = true
-  $scope.pageTitleRight = ''
-
-  var firstLoadLeft = true
-  var firstLoadRight = true
-
   var shouldShowUpdateDialog = true
-
-  var webviewLeft = document.querySelector('#webview-left')
-  var webviewRight = document.querySelector('#webview-right')
-
-  webviewLeft.addEventListener('dom-ready', () => {
-    if (firstLoadLeft) {
-      firstLoadLeft = false
-      webviewLeft.loadURL($scope.urlLeft)
-    }
-  })
-  webviewRight.addEventListener('dom-ready', () => {
-    if (firstLoadRight) {
-      firstLoadRight = false
-      webviewRight.loadURL($scope.urlRight)
-    }
-  })
-
-  webviewLeft.addEventListener('did-start-loading', function () {
-    $scope.loadingLeft = true
-    $scope.$apply()
-  })
-  webviewLeft.addEventListener('did-stop-loading', function () {
-    $scope.loadingLeft = false
-    $scope.$apply()
-  })
-  webviewRight.addEventListener('did-start-loading', function () {
-    $scope.loadingRight = true
-    $scope.$apply()
-  })
-  webviewRight.addEventListener('did-stop-loading', function () {
-    $scope.loadingRight = false
-    $scope.$apply()
-  })
-
-  webviewLeft.addEventListener('page-title-updated', function (title) {
-    $scope.pageTitleLeft = title.title
-    $scope.$apply()
-  })
-  webviewRight.addEventListener('page-title-updated', function (title) {
-    $scope.pageTitleRight = title.title
-    $scope.$apply()
-  })  
-  
-  webviewLeft.addEventListener('will-navigate', function (url) {
-    url = new URL(url.url)
-
-    $scope.urlLeft = url.toString()
-    url.set('hostname', $scope.domainRight)
-    $scope.urlRight = url.toString()
-    webviewRight.loadURL($scope.urlRight)
-    $scope.$apply()
-  })
-  webviewRight.addEventListener('will-navigate', function (url) {
-    url = new URL(url.url)
-
-    $scope.urlRight = url.toString()
-    url.set('hostname', $scope.domainLeft)
-    $scope.urlLeft = url.toString()
-    webviewLeft.loadURL($scope.urlLeft)
-    $scope.$apply()
-  })
 
   $scope.navigateLeft = function () {
     console.log('left')
@@ -172,18 +99,6 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
     shouldShowUpdateDialog = true
 
     ipcRenderer.send('checkForUpdates')
-  }
-
-  function navigateToUrl (url) {
-    console.log('navigate to ' + url)
-    url = new URL(url)
-
-    url.set('hostname', $scope.domainLeft)
-    $scope.urlLeft = url.toString()
-    webviewLeft.loadURL($scope.urlLeft)
-    url.set('hostname', $scope.domainRight)
-    $scope.urlRight = url.toString()
-    webviewRight.loadURL($scope.urlRight)
   }
 
   ipcRenderer.on('updateDownloaded', function (event, info) {

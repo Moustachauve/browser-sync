@@ -80,28 +80,31 @@ md-tooltip.md-panel.md-tooltip.md-default-theme, md-tooltip.md-panel.md-tooltip 
     margin-right: 115px;
 }
 
-#url-bars {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    width: 100%;
+sync-browser-window  {
+    position: relative;
     display: flex;
-    z-index: 10;
+    flex-direction: column;
+    flex: 1;
+    margin-top: -50px;
+    z-index: 50;
 }
 
-#url-bars form {
-    flex: 1 0;
+sync-browser-window .url-bar {
+    flex: 0;
+}
+
+sync-browser-window .url-bar form {
     position: relative;
     -webkit-app-region: no-drag;
     margin-right: 20px;
     min-width: 0;
 }
 
-#url-bars form .url {
+sync-browser-window .url-bar form .url {
     display: flex;
 }
 
-#url-bars form .title {
+sync-browser-window .url-bar form .title {
     font-size: 12px;
     margin-left: 8px;
     color: #dadada;
@@ -112,7 +115,7 @@ md-tooltip.md-panel.md-tooltip.md-default-theme, md-tooltip.md-panel.md-tooltip 
     text-overflow: ellipsis;
 }
 
-#url-bars input {
+sync-browser-window input {
     flex: 1 0;
     background-color: #5b0e0e;
     color: #bababa;
@@ -126,18 +129,22 @@ md-tooltip.md-panel.md-tooltip.md-default-theme, md-tooltip.md-panel.md-tooltip 
     transition:all 0.3s ease;
 }
 
-#url-bars md-progress-circular {
+sync-browser-window md-progress-circular {
     position: absolute;
     right: 7px;
     top: 23px;
 }
 
-#url-bars input:hover {
+sync-browser-window input:hover {
     background-color: #6d1010;
     box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
 }
 
-#url-bars input:focus {
+sync-browser-window input:focus {
     background-color: #efefef;
     color: #202020;
+}
+
+sync-browser-window webview {
+    flex: 1;
 }

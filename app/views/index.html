@@ -28,7 +28,12 @@
             </md-toolbar>
         </div>
 
-        <div id="url-bars">
+        <div layout="row" layout-fill >
+            <sync-browser-window domain="pornhub.com"></sync-browser-window>
+            <sync-browser-window domain="stage.pornhub.com"></sync-browser-window>
+        </div>
+
+        <!--<div id="url-bars">
             <form ng-submit="navigateLeft()">
                 <div class="title">{{pageTitleLeft}}</div>
                 <div class="url">
@@ -48,7 +53,7 @@
         <div layout="row" layout-fill >
             <webview id="webview-left" src="/" flex></webview>
             <webview id="webview-right" src="/" flex></webview>
-        </div>
+        </div> -->
     </body>
     <script src="index.js"></script>
 </html>

@@ -1,0 +1,10 @@
+<div class="url-bar">
+    <form ng-submit="navigate()">
+        <div class="title">{{pageTitle}}</div>
+        <div class="url">
+            <input type="text" ng-model="url" />
+            <md-progress-circular class="md-accent" md-diameter="16px" ng-if="loading"></md-progress-circular>
+        </div>
+    </form>
+</div>
+<webview src="/" flex></webview>
