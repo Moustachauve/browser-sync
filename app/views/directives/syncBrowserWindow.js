@@ -2,6 +2,7 @@
 
 /* global angular */
 const URL = require('url-parse')
+const {shell} = require('electron')
 
 // eslint-disable-next-line no-undef
 angular.module('browsersync')
@@ -71,6 +72,17 @@ angular.module('browsersync')
           if (!$scope.$$phase) {
             $scope.$apply()
           }
+        })
+
+        require('electron-context-menu')({
+          window: webview,
+          prepend: (params, browserWindow) => [{
+            label: 'Open in Browser',
+            visible: !!params.linkURL,
+            click () {
+              shell.openExternal(params.linkURL)
+            }
+          }]
         })
       }
 
