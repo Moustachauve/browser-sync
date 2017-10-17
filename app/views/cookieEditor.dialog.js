@@ -35,7 +35,7 @@ angular.module('browsersync')
       $mdDialog.show({
         controller: 'cookieCreatorDialog',
         templateUrl: 'cookieCreator.dialog.html',
-        preserveScope: true,
+        preserveScope: false,
         targetEvent: event,
         multiple: true,
         clickOutsideToClose: true

@@ -6,15 +6,9 @@ angular.module('browsersync')
     $scope.side = 'left'
     $scope.newCookie = {name: '', value: ''}
     $scope.btnDisabled = false
-    $scope.isClosed = false
 
     var createCookieListener = $rootScope.$on('createCookieResponse', function (e) {
-      // Temporary fix because this gets called more than once..
-      if ($scope.isClosed) {
-        return
-      }
       $mdDialog.cancel()
-      $scope.isClosed = true
     })
 
     $scope.cancel = function () {

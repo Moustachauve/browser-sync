@@ -101,7 +101,7 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
     $mdDialog.show({
       controller: 'cookieEditorDialog',
       templateUrl: 'cookieEditor.dialog.html',
-      preserveScope: true,
+      preserveScope: false,
       parent: angular.element(document.body),
       targetEvent: event,
       clickOutsideToClose: true
