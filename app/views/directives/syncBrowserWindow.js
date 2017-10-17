@@ -12,58 +12,59 @@ angular.module('browsersync')
       $scope.loading = true
       $scope.pageTitle = ''
       $scope.statusbarText = ''
+      $scope.webview = null
       var firstLoad = true
-      var webview
+      var forceNavigation = false
 
-      $scope.initWebview = function (element) {
-        webview = element[0].querySelector('webview')
-        webview.addEventListener('dom-ready', () => {
+      $scope.initWebview = function (webview) {
+        $scope.webview = webview
+        $scope.webview.addEventListener('dom-ready', () => {
           if (firstLoad) {
             firstLoad = false
             $scope.loadUrl($scope.url)
           }
         })
 
-        webview.addEventListener('did-start-loading', function () {
+        $scope.webview.addEventListener('did-start-loading', function () {
           $scope.loading = true
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
 
-        webview.addEventListener('did-stop-loading', function () {
+        $scope.webview.addEventListener('did-stop-loading', function () {
           $scope.loading = false
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
 
-        webview.addEventListener('page-title-updated', function (title) {
+        $scope.webview.addEventListener('page-title-updated', function (title) {
           $scope.pageTitle = title.title
           if (!$scope.$$phase) {
             $scope.$apply()
           }
         })
 
-        webview.addEventListener('did-fail-load', function (data) {
+        $scope.webview.addEventListener('did-fail-load', function (data) {
           console.log('fail to load', data)
           $scope.loading = false
         })
 
-        webview.addEventListener('will-navigate', function (data) {
+        $scope.webview.addEventListener('will-navigate', function (data) {
           $scope.loadUrl(data.url)
         })
 
-        webview.addEventListener('did-navigate', function (data) {
+        $scope.webview.addEventListener('did-navigate', function (data) {
           $scope.url = data.url
         })
 
-        webview.addEventListener('did-navigate-in-page', function (data) {
+        $scope.webview.addEventListener('did-navigate-in-page', function (data) {
           $scope.url = data.url
           notifyUrlChanged()
         })
 
-        webview.addEventListener('update-target-url', function (data) {
+        $scope.webview.addEventListener('update-target-url', function (data) {
           $scope.statusbarText = data.url
           if ($scope.statusbarText.length > 80) {
             $scope.statusbarText = $scope.statusbarText.slice(0, 80)
@@ -88,18 +89,18 @@ angular.module('browsersync')
 
       $scope.navigate = function () {
         console.log('navigating...')
-        webview.loadURL($scope.url)
-        notifyUrlChanged()
+        forceNavigation = true
+        $scope.loadUrl($scope.url)
       }
 
-      $scope.openSetDomainDialog = function () {
+      $scope.openSetDomainDialog = function (event) {
         $mdDialog.show({
           controller: 'setDomainDialog',
           templateUrl: 'setDomain.dialog.html',
           scope: $scope,
           preserveScope: true,
           parent: angular.element(document.body),
-          targetEvent: null,
+          targetEvent: event,
           clickOutsideToClose: false
         }).then(function () {
           // Dialog 'confirmed'
@@ -110,12 +111,60 @@ angular.module('browsersync')
 
       $scope.openDevTool = function () {
         console.log('Opening dev tools')
-        webview.openDevTools()
+        $scope.webview.openDevTools()
       }
 
       $rootScope.$on('syncBrowserUrlChanged', function (e, url) {
         console.log('url changed: ' + url)
         $scope.loadUrl(url)
+      })
+
+      $scope.$on('getCookies', function (e, data) {
+        if (!$scope.webview) {
+          $scope.$emit('getCookiesResponse', {from: $scope.side, cookies: []})
+        }
+
+        var cookiesManager = $scope.webview.getWebContents().session.cookies
+        cookiesManager.get({url: $scope.url}, function (err, cookies) {
+          if (err) {
+            console.err(err)
+            $scope.$emit('getCookiesResponse', {from: $scope.side, cookies: []})
+          }
+          $scope.$emit('getCookiesResponse', {from: $scope.side, cookies: cookies})
+        })
+      })
+
+      $scope.$on('createCookie', function (e, data) {
+        if (data.side !== $scope.side) {
+          return
+        }
+
+        var cookiesManager = $scope.webview.getWebContents().session.cookies
+        cookiesManager.set({
+          url: $scope.url,
+          name: data.name,
+          value: data.value
+        }, function (err) {
+          if (err) {
+            console.err(err)
+            throw err()
+          }
+
+          console.log('cookie was created')
+          $scope.$emit('createCookieResponse')
+        })
+      })
+
+      $scope.$on('deleteCookie', function (e, data) {
+        if (data.side !== $scope.side) {
+          return
+        }
+
+        var cookiesManager = $scope.webview.getWebContents().session.cookies
+        cookiesManager.remove($scope.url, data.cookie.name, function () {
+          console.log('cookie was deleted')
+          $scope.$emit('deleteCookieResponse')
+        })
       })
 
       function notifyUrlChanged () {
@@ -129,11 +178,12 @@ angular.module('browsersync')
         }
         url = new URL(checkUrlProtocol(url))
         url.set('hostname', $scope.domain)
-        if ($scope.url === url.toString()) {
+        if ($scope.url === url.toString() && !forceNavigation) {
           return
         }
+        forceNavigation = false
         $scope.url = url.toString()
-        webview.loadURL($scope.url)
+        $scope.webview.loadURL($scope.url)
         notifyUrlChanged()
       }
 
@@ -144,7 +194,12 @@ angular.module('browsersync')
     }]
 
     function link (scope, element, attrs) {
-      scope.initWebview(element)
+      var webview = document.createElement('webview')
+      webview.src = '/'
+      webview.partition = scope.side
+      element[0].querySelector('.webview-container').appendChild(webview)
+
+      scope.initWebview(webview)
     }
 
     function checkUrlProtocol (url) {

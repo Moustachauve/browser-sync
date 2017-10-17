@@ -80,6 +80,12 @@ md-tooltip.md-panel.md-tooltip.md-default-theme, md-tooltip.md-panel.md-tooltip 
     margin-right: 115px;
 }
 
+#toolbar-btns {
+    position: absolute;
+    top: -35px;
+    right: 140px;
+}
+
 sync-browser-window  {
     position: relative;
     display: flex;
@@ -155,6 +161,10 @@ sync-browser-window input:focus {
     color: #202020;
 }
 
+sync-browser-window .webview-container {
+    display: flex;
+}
+
 sync-browser-window webview {
     flex: 1;
 }
@@ -190,4 +200,30 @@ sync-browser-window .status-bar.ng-hide {
 }
 #setDomainDialog md-input-container .md-errors-spacer {
     display: none;
+}
+
+#setDomainDialog table {
+    border-collapse: collapse;
+}
+
+#setDomainDialog table td {
+    border-bottom: 1px solid #999999;
+    padding: 0 8px;
+}
+
+#setDomainDialog td.col-edit {
+    text-align: right;
+}
+
+#setDomainDialog md-card md-card-title {
+    flex: 0 auto;
+}
+
+#setDomainDialog .col-edit button {
+    padding: 0;
+    margin: 0;
+}
+
+#setDomainDialog .col-edit button i {
+    font-size: 18px;
 }

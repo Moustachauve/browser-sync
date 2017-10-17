@@ -20,17 +20,23 @@
                         Browser Sync
                     </h1>
 
-                    <md-button class="md-icon-button md-accent md-hue-2" aria-label="New update available" ng-click="showUpdateDialog($event)" ng-if="isUpdateAvailable" ng-mousedown="$event.stopPropagation();">
-                        <md-tooltip md-direction="bottom">A new update is ready to be installed</md-tooltip>
-                        <i class="material-icons">announcement</i>
-                    </md-button>
+                    <div id="toolbar-btns">
+                        <md-button class="md-icon-button" aria-label="Cookie Editor" ng-click="showCookieEditor($event)" ng-mousedown="$event.stopPropagation();">
+                            <md-tooltip md-direction="bottom">Cookie Editor</md-tooltip>
+                            <i class="material-icons">blur_circular</i>
+                        </md-button>
+                        <md-button class="md-icon-button md-accent md-hue-2" aria-label="New update available" ng-click="showUpdateDialog($event)" ng-if="isUpdateAvailable" ng-mousedown="$event.stopPropagation();">
+                            <md-tooltip md-direction="bottom">A new update is ready to be installed</md-tooltip>
+                            <i class="material-icons">announcement</i>
+                        </md-button>
+                    </div>
                 </div>
             </md-toolbar>
         </div>
 
         <div layout="row" id="browser-holder">
-            <sync-browser-window domain="settings.domainLeft" side="Left"></sync-browser-window>
-            <sync-browser-window domain="settings.domainRight" side="Right"></sync-browser-window>
+            <sync-browser-window domain="settings.domain_left" side="left"></sync-browser-window>
+            <sync-browser-window domain="settings.domain_right" side="right"></sync-browser-window>
         </div>
     </body>
     <script src="index.js"></script>

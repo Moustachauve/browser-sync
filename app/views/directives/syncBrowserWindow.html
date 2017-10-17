@@ -10,13 +10,13 @@
                 <i class="material-icons">more_vert</i>
             </md-button>
             <md-menu-content width="3" >
-            <md-menu-item ng-click="openSetDomainDialog()"><md-button>Set Domain</md-button></md-menu-item>
+            <md-menu-item ng-click="openSetDomainDialog($event)"><md-button>Set Domain</md-button></md-menu-item>
             <md-menu-item ng-click="openDevTool()"><md-button>Open Dev. Tools</md-button></md-menu-item>
           </md-menu-content>
         </md-menu>
     </form>
 </div>
-<webview src="/" flex></webview>
+<div class="webview-container" flex></div>
 <div class="status-bar" ng-show="statusbarText">
     {{statusbarText}}
 </div>

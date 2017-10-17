@@ -1,0 +1,36 @@
+<md-dialog aria-label="Edit a Cookie" id="cookieCreatorDialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edit a Cookie</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()" ng-disabled="btnDisabled">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <md-input-container>
+                    <label>Name</label>
+                    <input ng-model="newCookie.name" ng-disabled="btnDisabled">
+                </md-input-container>
+                <md-input-container>
+                    <label>Value</label>
+                    <input ng-model="newCookie.value" ng-disabled="btnDisabled">
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()" ng-disabled="btnDisabled">
+                Cancel
+            </md-button>
+            <md-button ng-click="createCookie()" ng-disabled="btnDisabled" class="md-accent">
+                Save
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

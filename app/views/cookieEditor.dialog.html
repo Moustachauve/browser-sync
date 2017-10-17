@@ -1,0 +1,84 @@
+<md-dialog aria-label="Set Domain" id="setDomainDialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Cookies Editor</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div flex layout="row">
+                    <md-card md-theme="dark-grey">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <div layout="row" layout-align="end center">
+                                    <span class="md-headline" flex>Left Window</span>
+                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="createCookie($event, 'left')">
+                                        <i class="material-icons edit-icon">add</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('left', cookie)">
+                                        <i class="material-icons edit-icon">delete</i>
+                                    </md-button>
+                                </div>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content>
+                            <table>
+                                <tr ng-repeat="cookie in cookies.left">
+                                    <td>{{cookie.name}}</td>
+                                    <td>{{cookie.value}}</td>
+                                    <td class="col-edit">
+                                        <md-button class="md-icon-button" aria-label="Edit Cookie" ng-click="editCookie('left', cookie)">
+                                            <i class="material-icons edit-icon">edit</i>
+                                        </md-button>
+                                        <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('left', cookie)">
+                                            <i class="material-icons edit-icon">delete</i>
+                                        </md-button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </md-card-content>
+                    </md-card>
+                    <md-card md-theme="dark-grey">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Right Window</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content>
+                                <table>
+                                    <tr ng-repeat="cookie in cookies.right">
+                                        <td>{{cookie.name}}</td>
+                                        <td>{{cookie.value}}</td>
+                                       <td class="col-edit">
+                                        <md-button class="md-icon-button" aria-label="Edit Cookie">
+                                            <i class="material-icons edit-icon">edit</i>
+                                        </md-button>
+                                        <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('right', cookie)">
+                                            <i class="material-icons edit-icon">delete</i>
+                                        </md-button>
+                                    </td>
+                                    </tr>
+                                </table>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="cancel()">
+                Close
+            </md-button>
+            <md-button ng-click="refresh()" class="md-accent">
+                Refresh
+            </md-button>
+        </md-dialog-actions>
+    </form>
+  </md-dialog>

@@ -44,6 +44,17 @@ globalSettings.load = function (callback) {
       }
 
       jsonfile.readFile(filePath, function (err, data) {
+        var defaultObject = getDefaultObject()
+
+        if (!data.version) {
+          data.version = defaultObject.version
+        }
+        if (!data.domain_left) {
+          data.domain_left = defaultObject.domain_left
+        }
+        if (!data.domain_right) {
+          data.domain_right = defaultObject.domain_right
+        }
         return callback(err, data)
       })
     })
@@ -53,8 +64,8 @@ globalSettings.load = function (callback) {
 function getDefaultObject () {
   var defaultObject = {
     version: 1,
-    domainLeft: 'google.com',
-    domainRight: 'google.dev'
+    domain_left: 'google.com',
+    domain_right: 'google.dev'
   }
 
   return defaultObject

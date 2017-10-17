@@ -13,7 +13,7 @@ angular.module('browsersync')
 
     $scope.confirm = function () {
       $scope.btnDisabled = true
-      globalSettings.setKey('domain' + $scope.side, $scope.newDomain, function (err) {
+      globalSettings.setKey('domain_' + $scope.side, $scope.newDomain, function (err) {
         if (err) {
           throw err
         }

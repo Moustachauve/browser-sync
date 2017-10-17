@@ -30,6 +30,8 @@ var app = angular.module('browsersync', ['ngMaterial'])
 // Load directives
 require('./directives/syncBrowserWindow')
 require('./setDomain.dialog')
+require('./cookieEditor.dialog')
+require('./cookieCreator.dialog')
 
 app.config(function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
@@ -40,6 +42,15 @@ app.config(function ($mdThemingProvider) {
     .backgroundPalette('grey')
     .primaryPalette('red')
     .accentPalette('blue')
+
+  var darkGreyMap = $mdThemingProvider.extendPalette('grey', {
+    '800': '#333333'
+  })
+  $mdThemingProvider.definePalette('dark-grey', darkGreyMap)
+
+  $mdThemingProvider.theme('dark-grey')
+    .backgroundPalette('dark-grey')
+    .dark()
 })
 
 app.config(function ($mdDateLocaleProvider) {
@@ -83,6 +94,21 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
         .textContent('You will be asked again next time you open the app.')
         .hideDelay(3000)
       )
+    })
+  }
+
+  $scope.showCookieEditor = function (event) {
+    $mdDialog.show({
+      controller: 'cookieEditorDialog',
+      templateUrl: 'cookieEditor.dialog.html',
+      preserveScope: true,
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true
+    }).then(function () {
+      // Save/submit/whatever
+    }, function () {
+      // Cancel
     })
   }
 
@@ -130,6 +156,7 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
       throw err
     }
     console.log('Global settings loaded')
+    $scope.showCookieEditor()
     $scope.settings = settings
     if (!$scope.$$phase) {
       $scope.$apply()
