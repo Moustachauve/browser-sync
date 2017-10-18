@@ -4,7 +4,7 @@
   "description": "Sync the url with two tabs with a different domain.",
   "author": "",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "build": {
     "appId": "ca.cgagnier.browsersync",
     "artifactName": "${name}-setup-${version}.${ext}"
@@ -13,6 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/Moustachauve/browser-sync.git"
   },
+  "bugs": {
+    "url": "https://github.com/Moustachauve/Timesheet-Helper/issues"
+  },
+  "homepage": "https://github.com/Moustachauve/Timesheet-Helper#readme",
   "devDependencies": {
     "electron": "^1.4.4",
     "electron-builder": "^19.7.1",

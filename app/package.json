@@ -4,7 +4,7 @@
   "description": "Sync the url with two tabs with a different domain.",
   "author": "Christophe Gagnier",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "main.js",
   "dependencies": {
     "angular": "^1.6.4",

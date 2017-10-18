@@ -6,7 +6,7 @@ require('angular-material')
 require('angular-animate')
 require('angular-aria')
 const {ipcRenderer} = require('electron')
-// const log = require('electron-log')
+const log = require('electron-log')
 const drag = require('electron-drag')
 
 const globalSettings = require('./../lib/globalSettings')
@@ -14,7 +14,7 @@ const globalSettings = require('./../lib/globalSettings')
 var titleBarDrag = drag('#titleBar')
 
 // var oldConsoleLog = console.log
-/* console.log = function (...args) {
+console.log = function (...args) {
   if (args && args[0]) {
     args[0] = '[renderer] ' + args[0]
   } else {
@@ -22,7 +22,7 @@ var titleBarDrag = drag('#titleBar')
   }
 
   log.info(...args)
-} */
+}
 
 // eslint-disable-next-line no-undef
 var app = angular.module('browsersync', ['ngMaterial'])

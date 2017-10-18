@@ -212,7 +212,7 @@ angular.module('browsersync')
         if (!$scope.domain) {
           return
         }
-        url = new URL(checkUrlProtocol(url))
+        url = new URL($scope.checkUrlProtocol(url))
         url.set('hostname', $scope.domain)
         if ($scope.url === url.toString() && !forceNavigation) {
           return
@@ -223,26 +223,43 @@ angular.module('browsersync')
         notifyUrlChanged()
       }
 
-      $scope.$watch('domain', function () {
-        console.log('Domain changed, reloading web view')
-        $scope.loadUrl($scope.url)
-      }, true)
+      $scope.checkUrlProtocol = function (url) {
+        if (!/^(?:f|ht)tps?:\/\//.test(url)) {
+          url = 'http://' + url
+        }
+        return url
+      }
     }]
 
     function link (scope, element, attrs) {
+      if (scope.domain) {
+        createWebview(scope, element)
+      }
+
+      scope.$watch('domain', function () {
+        if (!scope.domain) {
+          return
+        }
+        
+        console.log('Domain changed, reloading web view', scope.domain)
+        if (!scope.webview) {
+          createWebview(scope, element)
+        } else {
+          scope.loadUrl(scope.url)
+        }
+      }, true)
+    }
+
+    function createWebview (scope, element) {
+      if (scope.webview) {
+        return
+      }
       var webview = document.createElement('webview')
-      webview.src = '/'
+      webview.src = scope.checkUrlProtocol(scope.domain)
       webview.partition = scope.side
       element[0].querySelector('.webview-container').appendChild(webview)
 
       scope.initWebview(webview)
-    }
-
-    function checkUrlProtocol (url) {
-      if (!/^(?:f|ht)tps?:\/\//.test(url)) {
-        url = 'http://' + url
-      }
-      return url
     }
 
     return {
