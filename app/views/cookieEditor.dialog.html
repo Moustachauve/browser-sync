@@ -65,7 +65,7 @@
                                     <td>{{cookie.name}}</td>
                                     <td>{{cookie.value}}</td>
                                     <td class="col-edit">
-                                        <md-button class="md-icon-button" aria-label="Edit Cookie">
+                                        <md-button class="md-icon-button" aria-label="Edit Cookie" ng-click="editCookie($event, 'right', cookie)">
                                             <i class="material-icons edit-icon">edit</i>
                                         </md-button>
                                         <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('right', cookie)">
