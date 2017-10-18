@@ -156,7 +156,6 @@ app.controller('indexController', ['$scope', '$interval', '$mdDialog', '$mdToast
       throw err
     }
     console.log('Global settings loaded')
-    $scope.showCookieEditor()
     $scope.settings = settings
     if (!$scope.$$phase) {
       $scope.$apply()
