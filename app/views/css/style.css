@@ -202,28 +202,31 @@ sync-browser-window .status-bar.ng-hide {
     display: none;
 }
 
-#setDomainDialog table {
-    border-collapse: collapse;
-}
-
-#setDomainDialog table td {
-    border-bottom: 1px solid #999999;
-    padding: 0 8px;
-}
-
-#setDomainDialog td.col-edit {
-    text-align: right;
-}
-
-#setDomainDialog md-card md-card-title {
+#cookieEditorDialog md-card md-card-title {
     flex: 0 auto;
 }
 
-#setDomainDialog .col-edit button {
+#cookieEditorDialog .col-edit button {
     padding: 0;
     margin: 0;
 }
 
-#setDomainDialog .col-edit button i {
+#cookieEditorDialog .col-edit button i {
     font-size: 18px;
+}
+
+#cookieEditorDialog table {
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+#cookieEditorDialog table td, #cookieEditorDialog table th {
+    border: 1px solid #666666;
+    padding: 10px;
+}
+
+
+#cookieEditorDialog td.col-edit {
+    text-align: right;
+    padding: 0;
 }

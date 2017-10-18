@@ -1,4 +1,4 @@
-<md-dialog aria-label="Set Domain" id="setDomainDialog">
+<md-dialog aria-label="Set Domain" id="cookieEditorDialog">
     <form ng-cloak>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -21,7 +21,7 @@
                                     <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="createCookie($event, 'left')">
                                         <i class="material-icons edit-icon">add</i>
                                     </md-button>
-                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('left', cookie)">
+                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteAllCookies('left')">
                                         <i class="material-icons edit-icon">delete</i>
                                     </md-button>
                                 </div>
@@ -33,7 +33,7 @@
                                     <td>{{cookie.name}}</td>
                                     <td>{{cookie.value}}</td>
                                     <td class="col-edit">
-                                        <md-button class="md-icon-button" aria-label="Edit Cookie" ng-click="editCookie('left', cookie)">
+                                        <md-button class="md-icon-button" aria-label="Edit Cookie" ng-click="editCookie($event, 'left', cookie)">
                                             <i class="material-icons edit-icon">edit</i>
                                         </md-button>
                                         <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteCookie('left', cookie)">
@@ -42,20 +42,29 @@
                                     </td>
                                 </tr>
                             </table>
+                            <div ng-show="!cookies.left || cookies.left.length === 0"><i>There is no cookie</i>&nbsp;😢</div>
                         </md-card-content>
                     </md-card>
                     <md-card md-theme="dark-grey">
                         <md-card-title>
                             <md-card-title-text>
-                                <span class="md-headline">Right Window</span>
+                                <div layout="row" layout-align="end center">
+                                    <span class="md-headline" flex>Right Window</span>
+                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="createCookie($event, 'right')">
+                                        <i class="material-icons edit-icon">add</i>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Delete Cookie" ng-click="deleteAllCookies('right')">
+                                        <i class="material-icons edit-icon">delete</i>
+                                    </md-button>
+                                </div>
                             </md-card-title-text>
                         </md-card-title>
                         <md-card-content>
-                                <table>
-                                    <tr ng-repeat="cookie in cookies.right">
-                                        <td>{{cookie.name}}</td>
-                                        <td>{{cookie.value}}</td>
-                                       <td class="col-edit">
+                            <table>
+                                <tr ng-repeat="cookie in cookies.right">
+                                    <td>{{cookie.name}}</td>
+                                    <td>{{cookie.value}}</td>
+                                    <td class="col-edit">
                                         <md-button class="md-icon-button" aria-label="Edit Cookie">
                                             <i class="material-icons edit-icon">edit</i>
                                         </md-button>
@@ -63,8 +72,9 @@
                                             <i class="material-icons edit-icon">delete</i>
                                         </md-button>
                                     </td>
-                                    </tr>
-                                </table>
+                                </tr>
+                            </table>
+                            <div ng-show="!cookies.right || cookies.right.length === 0"><i>There is no cookie</i>&nbsp;😢</div>
                         </md-card-content>
                     </md-card>
                 </div>

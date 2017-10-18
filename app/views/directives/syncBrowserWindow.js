@@ -150,7 +150,7 @@ angular.module('browsersync')
             throw err()
           }
 
-          console.log('cookie was created')
+          console.log('cookie [' + data.name + '] was created')
           $scope.$emit('createCookieResponse')
         })
       })
@@ -162,8 +162,44 @@ angular.module('browsersync')
 
         var cookiesManager = $scope.webview.getWebContents().session.cookies
         cookiesManager.remove($scope.url, data.cookie.name, function () {
-          console.log('cookie was deleted')
+          console.log('cookie [' + data.cookie.name + '] was deleted')
           $scope.$emit('deleteCookieResponse')
+        })
+      })
+
+      $scope.$on('editCookie', function (e, data) {
+        if (data.side !== $scope.side) {
+          return
+        }
+
+        var cookiesManager = $scope.webview.getWebContents().session.cookies
+        cookiesManager.remove($scope.url, data.oldCookie.name, function () {
+          console.log('cookie [' + data.oldCookie.name + '] was deleted')
+          cookiesManager.set({
+            url: $scope.url,
+            name: data.newCookie.name,
+            value: data.newCookie.value
+          }, function (err) {
+            if (err) {
+              console.err(err)
+              throw err()
+            }
+
+            console.log('cookie [' + data.newCookie.name + '] was created')
+            $scope.$emit('editCookieResponse')
+          })
+        })
+      })
+
+      $scope.$on('deleteAllCookies', function (e, data) {
+        if (data.side !== $scope.side) {
+          return
+        }
+
+        var session = $scope.webview.getWebContents().session
+        session.clearStorageData({storages: ['cookies']}, function () {
+          console.log('all cookies were deleted')
+          $scope.$emit('deleteAllCookiesResponse')
         })
       })
 

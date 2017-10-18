@@ -17,17 +17,43 @@ angular.module('browsersync')
       $scope.refresh()
     })
 
+    $rootScope.$on('deleteAllCookiesResponse', function (e, result) {
+      $scope.refresh()
+    })
+
+    $rootScope.$on('addCookiesResponse', function (e, result) {
+      $scope.refresh()
+    })
+
     $scope.cancel = function () {
       $mdDialog.cancel()
     }
 
     $scope.deleteCookie = function (side, cookie) {
       console.log('deleting cookie...')
-      $rootScope.$broadcast('deleteCookie', {side: side, cookie: cookie})
+      $rootScope.$broadcast('deleteCookie', { side: side, cookie: cookie })
     }
 
-    $scope.editCookie = function (side, cookie) {
+    $scope.deleteAllCookies = function (side) {
+      console.log('deleting all cookies...')
+      $rootScope.$broadcast('deleteAllCookies', { side: side })
+    }
+
+    $scope.editCookie = function (event, side, cookie) {
       console.log('opening cookieCreatorDialog - edit')
+      $mdDialog.show({
+        controller: 'cookieCreatorDialog',
+        templateUrl: 'cookieCreator.dialog.html',
+        locals: {
+          originalCookie: { name: cookie.name, value: cookie.value },
+          isEditingCookie: true,
+          side: side
+        },
+        preserveScope: false,
+        targetEvent: event,
+        multiple: true,
+        clickOutsideToClose: true
+      })
     }
 
     $scope.createCookie = function (event, side) {
@@ -35,14 +61,15 @@ angular.module('browsersync')
       $mdDialog.show({
         controller: 'cookieCreatorDialog',
         templateUrl: 'cookieCreator.dialog.html',
+        locals: {
+          isEditingCookie: false,
+          originalCookie: { name: '', value: '' },
+          side: side
+        },
         preserveScope: false,
         targetEvent: event,
         multiple: true,
         clickOutsideToClose: true
-      }).then(function () {
-        // Save/submit/whatever
-      }, function () {
-        // Cancel
       })
     }
 
